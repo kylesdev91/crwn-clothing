@@ -1,4 +1,4 @@
-const loggerMiddleWare = (store) => (next) => (action) => {
+export const loggerMiddleWare = (store) => (next) => (action) => {
   if (!action.type) {
     return next(action);
   }
