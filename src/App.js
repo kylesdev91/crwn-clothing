@@ -6,7 +6,6 @@ import { Routes, Route } from 'react-router-dom';
 import {
   onAuthStateChangedListener,
   createUserDocumentFromAuth,
-  getCurrentUser,
 } from './utils/firebase/firebase.utils';
 
 import Home from './routes/home/home.component';
@@ -20,7 +19,14 @@ const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    getCurrentUser().then((user) => console.log(user));
+    const unsubscribe = onAuthStateChangedListener((user) => {
+      if (user) {
+        createUserDocumentFromAuth(user);
+      }
+      dispatch(setCurrentUser(user));
+    });
+
+    return unsubscribe;
   }, []);
   return (
     <Routes>
