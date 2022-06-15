@@ -5,10 +5,6 @@ import FormInput from '../form-input/form-input.component';
 import Button, { BUTTON_TYPE_CLASSES } from '../button/button.component';
 
 import { SignInContainer, ButtonsContainer } from './sign-in-form.styles';
-<<<<<<< HEAD:src/components/sign-in-form/sign-in-form.component.tsx
-=======
-
->>>>>>> ecb80526860092ccff0f5ed19212987689a904ec:src/components/sign-in-form/sign-in-form.component.tsx
 import {
   googleSignInStart,
   emailSignInStart,
@@ -52,13 +48,8 @@ const SignInForm = () => {
   return (
     <SignInContainer>
       <h2>Already have an account?</h2>
-<<<<<<< HEAD:src/components/sign-in-form/sign-in-form.component.tsx
       <span>Sign in with your email and password</span>
       <form onSubmit={handleSubmit}>
-=======
-      <span>Sign up with your email and password</span>
-      <form onSubmit={(e) => handleSubmit}>
->>>>>>> ecb80526860092ccff0f5ed19212987689a904ec:src/components/sign-in-form/sign-in-form.component.tsx
         <FormInput
           label='Email'
           type='email'
