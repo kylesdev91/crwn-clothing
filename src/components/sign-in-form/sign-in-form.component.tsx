@@ -1,10 +1,10 @@
-import { useState } from 'react';
+import { useState, FormEvent, ChangeEvent } from 'react';
 import { useDispatch } from 'react-redux';
 
 import FormInput from '../form-input/form-input.component';
 import Button, { BUTTON_TYPE_CLASSES } from '../button/button.component';
 
-import './sign-in-form.styles.scss';
+import { SignInContainer, ButtonsContainer } from './sign-in-form.styles';
 
 import {
   googleSignInStart,
@@ -29,7 +29,7 @@ const SignInForm = () => {
     dispatch(googleSignInStart());
   };
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     try {
@@ -40,7 +40,7 @@ const SignInForm = () => {
     }
   };
 
-  const handleChange = (event) => {
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
 
     setFormFields({ ...formFields, [name]: value });
@@ -50,7 +50,7 @@ const SignInForm = () => {
     <div className='sign-up-container'>
       <h2>Already have an account?</h2>
       <span>Sign up with your email and password</span>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={(e) => handleSubmit}>
         <FormInput
           label='Email'
           type='email'
