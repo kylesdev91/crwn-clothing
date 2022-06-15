@@ -11,6 +11,8 @@ import {
   signOutSuccess,
   signOutFailed,
   EmailSignInStart,
+  SignUpStart,
+  SignUpSuccess,
 } from './user-action';
 
 import {
@@ -33,7 +35,6 @@ export function* getSnapshotFromUserAuth(
       userAuth,
       additionalDetails
     );
-
     if (userSnapshot) {
       yield* put(
         signInSuccess({ id: userSnapshot.id, ...userSnapshot.data() })
@@ -57,14 +58,14 @@ export function* signInWithEmail({
   payload: { email, password },
 }: EmailSignInStart) {
   try {
-    const userCredential = yield* call(
+    const data = yield* call(
       signInAuthUserWithEmailAndPassword,
       email,
       password
     );
 
-    if (userCredential) {
-      const { user } = userCredential;
+    if (data) {
+      const { user } = data;
       yield* call(getSnapshotFromUserAuth, user);
     }
   } catch (error) {
@@ -78,20 +79,26 @@ export function* isUserAuthenticated() {
     if (!userAuth) return;
     yield* call(getSnapshotFromUserAuth, userAuth);
   } catch (error) {
-    yield* put(signInFailed(error));
+    yield* put(signInFailed(error as Error));
   }
 }
 
-export function* signUp({ payload: { email, password, displayName } }) {
+export function* signUp({
+  payload: { email, password, displayName },
+}: SignUpStart) {
   try {
-    const { user } = yield* call(
+    const data = yield* call(
       createAuthUserWithEmailAndPassword,
       email,
       password
     );
-    yield* put(signUpSuccess(user, { displayName }));
+
+    if (data) {
+      const { user } = data;
+      yield* put(signUpSuccess(user, { displayName }));
+    }
   } catch (error) {
-    yield* put(signUpFailed(error));
+    yield* put(signUpFailed(error as Error));
   }
 }
 
@@ -100,11 +107,13 @@ export function* signOut() {
     yield* call(signOutUser);
     yield* put(signOutSuccess());
   } catch (error) {
-    yield* put(signOutFailed(error));
+    yield* put(signOutFailed(error as Error));
   }
 }
 
-export function* signInAfterSignUp({ payload: { user, additionalDetails } }) {
+export function* signInAfterSignUp({
+  payload: { user, additionalDetails },
+}: SignUpSuccess) {
   yield* call(getSnapshotFromUserAuth, user, additionalDetails);
 }
 
