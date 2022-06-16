@@ -17,6 +17,7 @@ import {
   NavLink,
   LogoContainer,
 } from './navigation.styles';
+import Button from '../../components/button/button.component';
 
 const Navigation = () => {
   const dispatch = useDispatch();
@@ -31,9 +32,9 @@ const Navigation = () => {
         <LogoContainer to='/'>
           <CrwnLogo className='logo' />
         </LogoContainer>
+        <h1>Kai Family Farm</h1>
         <NavLinks>
           <NavLink to='/shop'>SHOP</NavLink>
-
           {currentUser ? (
             <NavLink as='span' onClick={signOutUser}>
               SIGN OUT
